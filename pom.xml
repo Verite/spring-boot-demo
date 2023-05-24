@@ -71,6 +71,7 @@
     <module>demo-flyway</module>
     <module>demo-pay</module>
     <module>demo-adapter</module>
+    <module>demo-cloud-feign</module>
   </modules>
   <packaging>pom</packaging>
 
