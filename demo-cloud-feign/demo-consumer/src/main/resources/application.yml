@@ -1,15 +1,91 @@
+server:
+  port: 20002 # 项目启动端口号
+
 spring:
   application:
     name: spring-cloud-nacos-consumer # 项目名称（nacos 注册的服务名）
+  main:
+    allow-bean-definition-overriding: true
+  redis:
+    host: localhost
+    port: 6379
+    password: 123456
+    database: 5
   cloud:
     nacos:
       discovery:
         username: nacos # nacos 登录用户名
         password: nacos # nacos 密码
         server-addr: 127.0.0.1:8848 # nacos 服务端地址
-  main:
-    allow-bean-definition-overriding: true
+    openfeign:
+#      micrometer:
+#        enabled: true
 
-server:
-  port: 20002 # 项目启动端口号
+#      compression:
+#        request:
+#          enable: true # 使 Feign 发送的请求能够被压缩。
+#          mime: [text/xml, application/xml, application/json] # 支持的 MIME 类型列表
+#          min-request-size: 2048 # 最小阈值内容大小。
+#        response:
+#          enable: true  # 使来自 Feign 的响应能够被压缩。
+#      cache:
+#        enable: true # 缓存
+#      circuitbreaker: # 如果为 true，OpenFeign 客户端将使用 Spring Cloud CircuitBreaker 断路器进行包装。
+#        enabled: true
+#      refresh: true
+#      httpclient:
+#        connection-timeout: 500
+#        connection-timer-repeat: 500
+      client:
+        config:
+          paramUseClient:
+            connectTimeout: 500
+            readTimeout: 500
+            loggerLevel: basic
+            decodeSlash: false # 默认情况下，Feign 客户端不对斜杠/字符进行编码。spring.cloud.openfeign.client.decodeSlash您可以通过将的值设置为 来更改此行为false。
+#            default-to-properties: true # 如果我们同时创建@Configurationbean 和配置属性，配置属性将获胜。它将覆盖@Configuration值。但是如果你想把优先级改成@Configuration，你可以spring.cloud.openfeign.client.default-to-properties改成false。
+#            dismiss404: false
+
+# Resilience4j 配置
+resilience4j:
+  circuitbreaker:
+    instances:
+      paramUseClient:
+        minimumNumberOfCalls: 10
+  timelimiter:
+    instances:
+      paramUseClient:
+        timeoutDuration: 500ms
+
+# 日志配置
+logging:
+  level:
+    feign: debug
+
+#  file:
+#    name: app.log
+#    path: logs/
+#  pattern:
+#    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+#    file: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    web:
+      server:
+        request:
+          autotime:
+            enabled: false
+
 

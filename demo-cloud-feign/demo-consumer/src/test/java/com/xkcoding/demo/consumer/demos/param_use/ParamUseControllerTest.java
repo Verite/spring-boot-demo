@@ -1,4 +1,4 @@
-package com.xkcoding.demo.consumer.demos;
+package com.xkcoding.demo.consumer.demos.param_use;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,28 +16,27 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(ConsumerController.class)
-public class ConsumerControllerTest {
+@WebMvcTest(ParamUseController.class)
+public class ParamUseControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private SpringCloudNacosProviderClient mockProviderClient;
+    private ParamUseClient mockParamUseClient;
 
     @Test
-    public void testConsumer() throws Exception {
+    public void testParam() throws Exception {
         // Setup
-        when(mockProviderClient.call("name")).thenReturn("result");
+        when(mockParamUseClient.param(new Params())).thenReturn("result");
 
         // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(get("/consumer")
-                        .param("name", "name")
+        final MockHttpServletResponse response = mockMvc.perform(get("/param-use")
                         .accept(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
 
         // Verify the results
         assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("result", response.getContentAsString());
+        assertEquals("expectedResponse", response.getContentAsString());
     }
 }
