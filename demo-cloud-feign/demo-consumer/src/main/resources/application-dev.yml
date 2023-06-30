@@ -1,0 +1,53 @@
+server:
+  port: 30001 # 项目启动端口号
+
+spring:
+  application:
+    name: spring-cloud-nacos-consumer # 项目名称（nacos 注册的服务名）
+  main:
+    allow-bean-definition-overriding: true
+
+# 日志配置
+logging:
+  level:
+    feign: DEBUG
+    com.xkcoding.demo.consumer.demos.base_use.BaseUseController: debug
+
+feign:
+  circuitbreaker:
+    enabled: true
+
+
+#  1）resilience4j-circuitbreaker：熔断
+#  2）resilience4j-ratelimiter：限流
+#  3）resilience4j-bulkhead：隔离
+#  4）resilience4j-retry：自动重试
+#  5）resilience4j-cache：结果缓存
+#  6）resilience4j-timelimiter：超时处理
+#  断路器CircuitBreaker通常存在三种状态（CLOSE、OPEN、HALF_OPEN）
+#  1）CLOSED: 关闭状态，代表正常情况下的状态，允许所有请求通过,能通过状态转换为OPEN
+#  2）HALF_OPEN: 半开状态，即允许一部分请求通过,能通过状态转换为CLOSED和OPEN
+#  3）OPEN: 熔断状态，即不允许请求通过，能通过状态转为为HALF_OPEN
+#  4）DISABLED: 禁用状态，即允许所有请求通过，出现失败率达到给定的阈值也不会熔断，不会发生状态转换。
+#  5）METRICS_ONLY: 和DISABLED状态一样，也允许所有请求通过不会发生熔断，但是会记录失败率等信息，不会发生状态转换。
+#  6）FORCED_OPEN: 与DISABLED状态正好相反，启用CircuitBreaker，但是不允许任何请求通过，不会发生状态转换。
+#resilience4j:
+#  circuitbreaker:
+#    instances:
+#      spring-cloud-nacos-provider:
+#        minimumNumberOfCalls: 1
+#  timelimiter:
+#    instances:
+#      spring-cloud-nacos-provider:
+#        timeoutDuration: 3s
+#  #重试机制
+#  retry:
+#    instances:
+#      spring-cloud-nacos-provider:
+#        #最大重试次数
+#        max-attempts: 3
+#        #固定的重试间隔
+#        wait-duration: 10s
+#        enable-exponential-backoff: true
+#        exponential-backoff-multiplier: 2
+

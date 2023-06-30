@@ -23,7 +23,7 @@ public class BaseUseController {
 
     @GetMapping()
     public String base() {
-        return baseUseClient.base();
+        return baseUseClient.bases();
     }
 
 }

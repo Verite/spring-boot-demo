@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @author Verite
  */
 // nacos 服务 id
-@FeignClient(contextId = "baseUseProviderClient",name = "spring-cloud-nacos-provider",
-    // fallbackFactory = BaseUseProviderClientFallbackWithFactory.class,
-    fallback = BaseUseClientFallback.class
+@FeignClient(value = "spring-cloud-nacos-provider"
+    ,
+    fallback = BseUseClientFallback.class
+    // configuration = FeignClientConfig.class
 )
 public interface BaseUseClient {
 
@@ -17,6 +18,5 @@ public interface BaseUseClient {
      * 基础使用
      */
     @GetMapping("/base")
-    // @CacheRemove(cacheName = "base")
-    String base();
+    String bases();
 }

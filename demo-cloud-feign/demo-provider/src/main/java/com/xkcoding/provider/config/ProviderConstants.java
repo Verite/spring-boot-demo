@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProviderConstants {
 
-   public static final String SYS_DESC = "——服务提供者1：";
+   public static final String SYS_DESC = "—服务提供者的端口：";
 }

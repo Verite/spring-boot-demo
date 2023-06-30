@@ -1,17 +1,16 @@
 package com.xkcoding.demo.consumer.demos.base_use;
 
-
 import org.springframework.stereotype.Component;
 
 /**
  * @author Verite
  */
 @Component
-public class BaseUseClientFallback implements BaseUseClient {
+public class BseUseClientFallback implements BaseUseClient {
 
     @Override
-    public String base() {
-        return "fallback -- consumer";
+    public String bases() {
+        return "consumer -- BseUseClientFallback123";
     }
 }
 

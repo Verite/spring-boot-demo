@@ -7,8 +7,8 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 /**
  * @author Verite
  */
+// @EnableHystrix
 @SpringBootApplication
-@EnableHystrix
 public class SpringBootDemoProviderApplication {
 
     public static void main(String[] args) {

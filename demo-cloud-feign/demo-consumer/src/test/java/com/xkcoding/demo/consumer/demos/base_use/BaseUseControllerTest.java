@@ -1,5 +1,6 @@
 package com.xkcoding.demo.consumer.demos.base_use;
 
+import com.xkcoding.demo.consumer.demos.param_use.ParamUseClientFallbackWithFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,12 @@ public class BaseUseControllerTest {
     private BaseUseClient mockProviderClient;
 
     @MockBean
-    private BaseUseClientFallbackWithFactory mockBaseUseProviderClientFallbackFactory;
+    private ParamUseClientFallbackWithFactory mockBaseUseProviderClientFallbackFactory;
 
     @Test
     public void testBase() throws Exception {
         // Setup
-        when(mockProviderClient.base()).thenReturn("result");
+        when(mockProviderClient.bases()).thenReturn("result");
 
         // Run the test
         final MockHttpServletResponse response = mockMvc.perform(get("/base-use")
@@ -48,7 +49,7 @@ public class BaseUseControllerTest {
     @Test
     public void testBaseFallback() throws Exception {
         // Setup
-        when(mockProviderClient.base()).thenThrow(new RuntimeException("fallback"));
+        when(mockProviderClient.bases()).thenThrow(new RuntimeException("fallback"));
 
         // Run the test
         final MockHttpServletResponse response = mockMvc.perform(get("/base-use")
@@ -62,8 +63,8 @@ public class BaseUseControllerTest {
     @Test
     public void testBaseFallbackFactory() throws Exception {
         // Setup
-        BaseUseClientFallbackWithFactory fallback = new BaseUseClientFallbackWithFactory();
-        when(mockProviderClient.base()).thenThrow(new NoFallbackAvailableException("fallbackWithFactory", new RuntimeException()));
+        ParamUseClientFallbackWithFactory fallback = new ParamUseClientFallbackWithFactory();
+        when(mockProviderClient.bases()).thenThrow(new NoFallbackAvailableException("fallbackWithFactory", new RuntimeException()));
         when(mockBaseUseProviderClientFallbackFactory.create(any(Throwable.class))).thenReturn((BaseUseClient) fallback);
 
         // Run the test
